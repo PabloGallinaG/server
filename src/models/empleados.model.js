@@ -24,7 +24,6 @@ const Empleados = sequelize.define(
     municipio: Sequelize.STRING,
     departamento: Sequelize.STRING,
     salario: Sequelize.INTEGER,
-    puesto: Sequelize.STRING,
     activo: Sequelize.BOOLEAN,
   },
 
