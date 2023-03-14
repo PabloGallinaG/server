@@ -2,6 +2,7 @@ import sql from "mssql";
 // import { configDB } from "../db";
 
 import { DB_DATABASE, DB_HOST, DB_PASSWORD, DB_USER } from "../config.js";
+import Empleados from "../models/empleados.model.js";
 
 export const configDB = {
   user: DB_USER,
@@ -21,9 +22,13 @@ export const configDB = {
 
 export const getEmpleados = async (req, res) => {
   try {
-    await sql.connect(configDB);
-    const result = await sql.query`SELECT * FROM empleados WHERE activo = 1`;
-    res.json(result.recordset);
+    const empleados = await Empleados.findAll({
+      where: {
+        activo: true,
+      },
+    });
+
+    res.json(empleados);
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: "Something goes wrong" });
@@ -33,13 +38,18 @@ export const getEmpleados = async (req, res) => {
 export const getEmpleado = async (req, res) => {
   try {
     const { id } = req.params;
-    await sql.connect(configDB);
-    const result =
-      await sql.query`SELECT * FROM empleados WHERE id = ${id} AND activo = 1`;
-    if (result.recordset.length <= 0) {
+    const empleado = await Empleados.findOne({
+      where: {
+        EmpleadoID: id,
+        activo: true,
+      },
+    });
+
+    if (!empleado) {
       return res.status(404).json({ message: "Employee not found" });
     }
-    res.json(result.recordset[0]);
+
+    res.json(empleado);
   } catch (error) {
     return res.status(500).json({ message: "Something goes wrong" });
   }
@@ -49,14 +59,25 @@ export const deleteEmpleado = async (req, res) => {
   // update activo = 0
   try {
     const { id } = req.params;
-    await sql.connect(configDB);
-    const result =
-      await sql.query`UPDATE empleados SET activo = 0 WHERE id = ${id} AND activo = 1`;
-    if (result.rowsAffected.length <= 0) {
+
+    console.log("id: ", id);
+
+    const empleado = await Empleados.findOne({
+      where: {
+        EmpleadoID: id,
+        activo: true,
+      },
+    });
+
+    if (!empleado) {
       return res.status(404).json({ message: "Employee not found" });
     }
+
+    await empleado.update({ activo: false });
+
     res.json({ message: "Employee deleted" });
   } catch (error) {
+    console.log(error);
     return res.status(500).json({ message: "Something goes wrong" });
   }
 };
@@ -79,12 +100,24 @@ export const createEmpleado = async (req, res) => {
       salario,
       puesto,
     } = req.body;
-    await sql.connect(configDB);
-    const result =
-      await sql.query`INSERT INTO empleados (primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, direccion, fecha_nacimiento, dpi, nit, cantidad_hijos, correo, municipio, departamento, salario, puesto) VALUES (${primer_nombre}, ${segundo_nombre}, ${primer_apellido}, ${segundo_apellido}, ${direccion}, ${fecha_nacimiento}, ${dpi}, ${nit}, ${cantidad_hijos}, ${correo}, ${municipio}, ${departamento}, ${salario}, ${puesto})`;
-    if (result.rowsAffected.length <= 0) {
-      return res.status(404).json({ message: "Employee not found" });
-    }
+
+    const empleado = await Empleados.create({
+      primer_nombre,
+      segundo_nombre,
+      primer_apellido,
+      segundo_apellido,
+      direccion,
+      fecha_nacimiento,
+      dpi,
+      nit,
+      cantidad_hijos,
+      correo,
+      municipio,
+      departamento,
+      salario,
+      puesto,
+    });
+
     res.json({ message: "Employee created" });
   } catch (error) {
     console.log(error);
@@ -111,12 +144,35 @@ export const updateEmpleado = async (req, res) => {
       salario,
       puesto,
     } = req.body;
-    await sql.connect(configDB);
-    const result =
-      await sql.query`UPDATE empleados SET primer_nombre = ${primer_nombre}, segundo_nombre = ${segundo_nombre}, primer_apellido = ${primer_apellido}, segundo_apellido = ${segundo_apellido}, direccion = ${direccion}, fecha_nacimiento = ${fecha_nacimiento}, dpi = ${dpi}, nit = ${nit}, cantidad_hijos = ${cantidad_hijos}, correo = ${correo}, municipio = ${municipio}, departamento = ${departamento}, salario = ${salario}, puesto = ${puesto} WHERE id = ${id} AND activo = 1`;
-    if (result.rowsAffected.length <= 0) {
+
+    const empleado = await Empleados.findOne({
+      where: {
+        EmpleadoID: id,
+        activo: true,
+      },
+    });
+
+    if (!empleado) {
       return res.status(404).json({ message: "Employee not found" });
     }
+
+    await empleado.update({
+      primer_nombre,
+      segundo_nombre,
+      primer_apellido,
+      segundo_apellido,
+      direccion,
+      fecha_nacimiento,
+      dpi,
+      nit,
+      cantidad_hijos,
+      correo,
+      municipio,
+      departamento,
+      salario,
+      puesto,
+    });
+
     res.json({ message: "Employee updated" });
   } catch (error) {
     console.log(error);

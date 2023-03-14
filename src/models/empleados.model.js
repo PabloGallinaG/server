@@ -6,10 +6,14 @@ const Empleados = sequelize.define(
   "Empleados",
   {
     EmpleadoID: {
-      type: Sequelize.UUID,
-      allowNull: false,
-      unique: true,
+      // type: Sequelize.UUID,
+      // allowNull: false,
+      // unique: true,
+      // primaryKey: true,
+      // autoIncrement: true,
+      type: Sequelize.INTEGER,
       primaryKey: true,
+      autoIncrement: true,
     },
     primer_nombre: Sequelize.STRING,
     segundo_nombre: Sequelize.STRING,
@@ -24,7 +28,10 @@ const Empleados = sequelize.define(
     municipio: Sequelize.STRING,
     departamento: Sequelize.STRING,
     salario: Sequelize.INTEGER,
-    activo: Sequelize.BOOLEAN,
+    activo: {
+      type: Sequelize.BOOLEAN,
+      defaultValue: true,
+    },
   },
 
   {

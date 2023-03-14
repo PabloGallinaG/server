@@ -23,10 +23,10 @@ Content-Type: application/json
 }
 
 ### Get employee by id
-GET http://localhost:3001/api/empleados/4
+GET http://localhost:3001/api/empleados/1
 
 ### Update an employee
-PUT http://localhost:3001/api/empleados/2
+PUT http://localhost:3001/api/empleados/1
 Content-Type: application/json
 
 {
@@ -47,7 +47,7 @@ Content-Type: application/json
 }
 
 ### Delete an employee
-DELETE http://localhost:3001/api/empleados/4
+DELETE http://localhost:3001/api/empleados/1
 
 ### PING
 GET http://localhost:3001/ping

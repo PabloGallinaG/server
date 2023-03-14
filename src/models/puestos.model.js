@@ -6,13 +6,20 @@ const Puestos = sequelize.define(
   "Puestos",
   {
     PuestosID: {
-      type: Sequelize.UUID,
-      allowNull: false,
-      unique: true,
+      // type: Sequelize.UUID,
+      // allowNull: false,
+      // unique: true,
+      // primaryKey: true,
+      // autoIncrement: true,
+      type: Sequelize.INTEGER,
       primaryKey: true,
+      autoIncrement: true,
     },
     nombre: Sequelize.STRING,
-    activo: Sequelize.BOOLEAN,
+    activo: {
+      type: Sequelize.BOOLEAN,
+      defaultValue: true,
+    },
   },
 
   {
