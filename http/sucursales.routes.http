@@ -1,0 +1,28 @@
+### get sucursales
+GET http://localhost:3000/api/sucursales
+
+###
+POST http://localhost:3000/api/sucursales
+Content-Type: application/json
+
+{
+  "correo": "correo@mail.com",
+  "departamento": "departamento",
+  "municipio": "municipio",
+  "direccion": "direccion",
+  "telefono": "telefono"
+}
+
+### Get sucursal by id
+GET http://localhost:3000/api/sucursales/1
+
+### Update an sucursal
+PATCH http://localhost:3000/api/sucursales/1
+Content-Type: application/json
+
+{
+  "correo": "correocambiado@mail.com"
+}
+
+### Delete an sucursal
+DELETE http://localhost:3000/api/sucursales/1

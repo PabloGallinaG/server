@@ -1,0 +1,50 @@
+### get empleados
+GET http://localhost:3001/api/empleados
+
+###
+POST http://localhost:3001/api/empleados
+Content-Type: application/json
+
+{
+  "primer_nombre": "Pablo",
+  "segundo_nombre": "Pablo",
+  "primer_apellido": "Pablo",
+  "segundo_apellido": "Pablo",
+  "direccion": "zona 1",
+  "fecha_nacimiento": "2020-01-01",
+  "dpi": "65465646466",
+  "nit": "65465646466",
+  "cantidad_hijos": 0,
+  "correo": "pablo@mail.com",
+  "municipio": "Guatemala",
+  "departamento": "Guatemala",
+  "salario": 1000,
+  "puesto": "Gerente"
+}
+
+### Get employee by id
+GET http://localhost:3001/api/empleados/4
+
+### Update an employee
+PUT http://localhost:3001/api/empleados/2
+Content-Type: application/json
+
+{
+  "primer_nombre": "Pablo",
+  "segundo_nombre": "David",
+  "primer_apellido": "Gallina",
+  "segundo_apellido": "Gil",
+  "direccion": "zona 1",
+  "fecha_nacimiento": "2020-01-01",
+  "dpi": "65465646466",
+  "nit": "65465646466",
+  "cantidad_hijos": 0,
+  "correo": "pablo@mail.com",
+  "municipio": "Guatemala",
+  "departamento": "Guatemala",
+  "salario": 1000,
+  "puesto": "Gerente"
+}
+
+### Delete an employee
+DELETE http://localhost:3001/api/empleados/4
