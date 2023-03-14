@@ -8,13 +8,6 @@ import {
   DB_USER,
 } from "./config.js";
 
-// export const configDB = {
-//   user: DB_USER,
-//   password: DB_PASSWORD,
-//   server: "10.192.0.4\\DEV", // You can use 'localhost\\instance' to connect to named instance
-//   database: DB_DATABASE,
-// };
-
 const sequelize = new Sequelize(DB_DATABASE, DB_USER, DB_PASSWORD, {
   host: DB_HOST,
   port: DB_PORT,
@@ -40,9 +33,5 @@ const sequelize = new Sequelize(DB_DATABASE, DB_USER, DB_PASSWORD, {
   logging: false,
   timezone: "-06:00",
 });
-
-// exports.DataTyoes = DataTypes;
-// exports.sequelize = sequelize;
-// exports.Op = Op;
 
 export { DataTypes, sequelize, Op };
