@@ -113,7 +113,6 @@ export const updateEmpleado = async (req, res) => {
     } = req.body;
     await sql.connect(configDB);
     const result =
-      // patch
       await sql.query`UPDATE empleados SET primer_nombre = ${primer_nombre}, segundo_nombre = ${segundo_nombre}, primer_apellido = ${primer_apellido}, segundo_apellido = ${segundo_apellido}, direccion = ${direccion}, fecha_nacimiento = ${fecha_nacimiento}, dpi = ${dpi}, nit = ${nit}, cantidad_hijos = ${cantidad_hijos}, correo = ${correo}, municipio = ${municipio}, departamento = ${departamento}, salario = ${salario}, puesto = ${puesto} WHERE id = ${id} AND activo = 1`;
     if (result.rowsAffected.length <= 0) {
       return res.status(404).json({ message: "Employee not found" });
@@ -124,3 +123,58 @@ export const updateEmpleado = async (req, res) => {
     return res.status(500).json({ message: "Something goes wrong" });
   }
 };
+
+// import Sequelize from 'sequelize';
+// import { sequelize } from '../dbconn';
+
+// const PuestoEmpleado = sequelize.define('Empleados', {
+//     PuestoEmpleadoID: {
+//             type: Sequelize.UUID,
+//             allowNull: false,
+//             unique: true,
+//             primaryKey: true
+//         },
+//         Nombre : Sequelize.STRING
+//     },
+//     {
+//         timestamps: false
+//     }
+// )
+
+// export default PuestoEmpleado;
+
+// import Sequelize from 'sequelize';
+// import { sequelize } from '../dbconn';
+// import PuestoEmpleado from './PuestoEmpleado';
+// import Estacion from './Estacion';
+
+// const Empleado = sequelize.define('Empleado', {
+//     EmpleadoID: {
+//         type: Sequelize.UUID,
+//         primaryKey: true,
+//         autoIncrement: true,
+//         allowNull: false,
+//         unique: true
+//     },
+//     CentroCostoID: Sequelize.STRING,
+//     EmpleadoAuroraID: {
+//         type: Sequelize.INTEGER
+//     },
+//     PrimerNombre: Sequelize.STRING,
+//     SegundoNombre: Sequelize.STRING,
+//     PrimerApellido: Sequelize.STRING,
+//     SegundoApellido: Sequelize.INTEGER,
+//     PuestoEmpleadoID: Sequelize.INTEGER,
+//     CorreoElectronico: Sequelize.STRING,
+//     NumeroTelefono: Sequelize.STRING,
+//     FotoURL: Sequelize.STRING,
+//     EstadoID: Sequelize.INTEGER
+// }, {
+//     timestamps: false
+// });
+
+// Empleado.belongsTo(PuestoEmpleado, { foreignKey: "PuestoEmpleadoID" });
+// PuestoEmpleado.hasMany(Empleado, {foreignKey: "PuestoEmpleadoID"})
+// Empleado.belongsTo(Estacion, { foreignKey: "CentroCostoID" });
+
+// export default Empleado;

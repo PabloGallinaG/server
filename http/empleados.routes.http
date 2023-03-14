@@ -48,3 +48,6 @@ Content-Type: application/json
 
 ### Delete an employee
 DELETE http://localhost:3001/api/empleados/4
+
+### PING
+GET http://localhost:3001/
