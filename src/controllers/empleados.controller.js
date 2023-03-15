@@ -60,8 +60,6 @@ export const deleteEmpleado = async (req, res) => {
   try {
     const { id } = req.params;
 
-    console.log("id: ", id);
-
     const empleado = await Empleados.findOne({
       where: {
         EmpleadoID: id,
