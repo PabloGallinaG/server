@@ -20,7 +20,7 @@ const Empleados = sequelize.define(
     primer_apellido: Sequelize.STRING,
     segundo_apellido: Sequelize.STRING,
     direccion: Sequelize.STRING,
-    fecha_nacimiento: Sequelize.DATE,
+    fecha_nacimiento: Sequelize.DATEONLY,
     dpi: Sequelize.STRING,
     nit: Sequelize.STRING,
     cantidad_hijos: Sequelize.INTEGER,

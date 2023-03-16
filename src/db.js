@@ -15,7 +15,8 @@ const sequelize = new Sequelize(DB_DATABASE, DB_USER, DB_PASSWORD, {
   dialectOptions: {
     requestTimeout: 300000,
     options: {
-      useUTC: true,
+      useUTC: false,
+      timezone: "localtime",
       dateFirst: 1,
       enableArithAbort: false,
       dateStrings: true,
@@ -31,7 +32,7 @@ const sequelize = new Sequelize(DB_DATABASE, DB_USER, DB_PASSWORD, {
     idle: 10000,
   },
   logging: false,
-  timezone: "-06:00",
+  // timezone: "-06:00",
 });
 
 export { DataTypes, sequelize, Op };

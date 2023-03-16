@@ -1,24 +1,8 @@
-import { DB_DATABASE, DB_HOST, DB_PASSWORD, DB_USER } from "../config.js";
 import { sequelize } from "../db.js";
 import Empleados from "../models/empleados.model.js";
 import Puestos from "../models/puestos.model.js";
 import PuestosEmpleado from "../models/puesto_empleado.model.js";
-
-export const configDB = {
-  user: DB_USER,
-  password: DB_PASSWORD,
-  database: DB_DATABASE,
-  server: DB_HOST, // You can use 'localhost\\instance' to connect to named instance
-  pool: {
-    max: 10,
-    min: 0,
-    idleTimeoutMillis: 30000,
-  },
-  options: {
-    encrypt: true, // for azure
-    trustServerCertificate: true, // change to true for local dev / self-signed certs
-  },
-};
+import moment from "moment";
 
 export const getEmpleados = async (req, res) => {
   try {
@@ -44,12 +28,8 @@ export const getEmpleado = async (req, res) => {
         EmpleadoID: id,
         activo: true,
       },
-      // include: {
-      //   model: PuestosEmpleado,
-      //   as: "puestos",
-      //   attributes: ["PuestosID", "EmpleadoID"],
-      // },
     });
+    console.log(empleado);
 
     const puestos = await PuestosEmpleado.findAll({
       where: {
@@ -70,11 +50,8 @@ export const getEmpleado = async (req, res) => {
       return res.status(404).json({ message: "Employee not found" });
     }
 
-    console.log("puestosEmpleados", puestosEmpleados);
-
     const empleado_json = empleado.toJSON();
     empleado_json.puestos = puestosEmpleados;
-    console.log("empleado_json", empleado_json);
 
     res.json(empleado_json);
   } catch (error) {
@@ -134,7 +111,7 @@ export const createEmpleado = async (req, res) => {
       primer_apellido,
       segundo_apellido,
       direccion,
-      fecha_nacimiento,
+      fecha_nacimiento: moment(fecha_nacimiento).format("YYYY-MM-DD"),
       dpi,
       nit,
       cantidad_hijos,
@@ -142,8 +119,9 @@ export const createEmpleado = async (req, res) => {
       municipio,
       departamento,
       salario,
-      puestos,
     });
+
+    console.log("fecha_nacimiento", fecha_nacimiento);
 
     // bulk create to puestos_empleados
     const puestos_empleados = puestos.map((puesto) => {
@@ -159,6 +137,7 @@ export const createEmpleado = async (req, res) => {
 
     res.json({ message: "Employee created" });
   } catch (error) {
+    console.log(error);
     await t.rollback();
 
     return res.status(500).json({ message: "Something goes wrong" });
@@ -186,7 +165,7 @@ export const updateEmpleado = async (req, res) => {
       puestos,
     } = req.body;
 
-    console.log("puestos: ", puestos);
+    console.log("fecha_nacimiento", fecha_nacimiento);
 
     const empleado = await Empleados.findOne({
       where: {
@@ -194,6 +173,13 @@ export const updateEmpleado = async (req, res) => {
         activo: true,
       },
     });
+
+    // const puestos_db = await PuestosEmpleado.findAll({
+    //   where: {
+    //     EmpleadoID: id,
+    //   },
+    //   include: Puestos,
+    // });
 
     if (!empleado) {
       return res.status(404).json({ message: "Employee not found" });
@@ -205,7 +191,8 @@ export const updateEmpleado = async (req, res) => {
       primer_apellido,
       segundo_apellido,
       direccion,
-      fecha_nacimiento,
+      // fecha_nacimiento,
+      fecha_nacimiento: moment(fecha_nacimiento).format("YYYY-MM-DD"),
       dpi,
       nit,
       cantidad_hijos,
@@ -215,6 +202,11 @@ export const updateEmpleado = async (req, res) => {
       salario,
       puestos,
     });
+
+    // const puestos_empleados_id = puestos_db.map((puesto) => {
+    //   const puesto_json = puesto.toJSON();
+    //   return puesto_json.PuestosEmpleadoID;
+    // });
 
     await PuestosEmpleado.destroy({
       where: {
