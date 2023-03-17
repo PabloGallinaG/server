@@ -27,7 +27,7 @@ const Empleados = sequelize.define(
     correo: Sequelize.STRING,
     municipio: Sequelize.STRING,
     departamento: Sequelize.STRING,
-    salario: Sequelize.INTEGER,
+    salario: Sequelize.DECIMAL(10, 2),
     activo: {
       type: Sequelize.BOOLEAN,
       defaultValue: true,
